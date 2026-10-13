@@ -1,0 +1,143 @@
+.beam {
+  container-type: inline-size;
+  display: grid;
+}
+
+/* The four stages of a transfer, read left to right. */
+.beam__steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  margin: 0;
+  padding: var(--space-4) var(--space-5);
+  list-style: none;
+  border-bottom: 1px solid var(--line);
+}
+
+.beam__step {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--text-xs);
+  font-weight: 560;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  transition: color var(--dur-med) var(--ease-soft);
+}
+
+.beam__step-num {
+  display: inline-grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--line-3);
+  font-size: var(--text-2xs);
+  transition:
+    background-color var(--dur-med) var(--ease-soft),
+    color var(--dur-med) var(--ease-soft),
+    box-shadow var(--dur-med) var(--ease-soft);
+}
+
+.beam__step[data-done] .beam__step-num {
+  background: var(--pearl-3);
+  box-shadow: none;
+}
+
+.beam__step[aria-current='step'] {
+  color: var(--fg);
+}
+
+.beam__step[aria-current='step'] .beam__step-num {
+  background: var(--ink-3);
+  color: var(--pearl);
+  box-shadow: none;
+}
+
+.beam__stage {
+  position: relative;
+  aspect-ratio: 16 / 7;
+  min-height: 15rem;
+  background:
+    radial-gradient(ellipse 60% 70% at 50% 45%, var(--white), transparent 75%),
+    var(--pearl);
+}
+
+@container (max-width: 560px) {
+  .beam__stage {
+    aspect-ratio: 4 / 5;
+  }
+}
+
+.beam__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.beam__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4) var(--space-6);
+  padding: var(--space-4) var(--space-5);
+  border-top: 1px solid var(--line);
+}
+
+.beam__buttons {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.beam__loss {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.beam__loss input {
+  width: 9rem;
+  accent-color: var(--ink-3);
+}
+
+.beam__loss-value {
+  min-width: 3ch;
+  font-size: var(--text-sm);
+  font-weight: 560;
+}
+
+.beam__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  margin: 0 0 0 auto;
+  font-size: var(--text-sm);
+}
+
+.beam__stats div {
+  display: flex;
+  gap: 0.5em;
+}
+
+.beam__stats dt {
+  color: var(--fg-3);
+}
+
+.beam__stats dd {
+  margin: 0;
+  font-weight: 560;
+  font-variant-numeric: tabular-nums;
+}
+
+.beam__stats .beam__lost {
+  text-decoration: line-through;
+  text-decoration-color: var(--fg-3);
+}
+
+@container (max-width: 560px) {
+  .beam__stats {
+    margin-left: 0;
+  }
+}

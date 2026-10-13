@@ -1,0 +1,157 @@
+/* ═══ 05 — The Lab ════════════════════════════════════════ */
+.lab__list {
+  display: grid;
+  gap: clamp(3rem, 2rem + 3vw, 5rem);
+}
+
+.experiment {
+  display: grid;
+  gap: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--line);
+}
+
+.experiment__head {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+}
+
+.experiment__kind {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.experiment__kind span:first-child {
+  color: var(--fg);
+}
+
+.experiment__title {
+  font-size: var(--text-xl);
+  line-height: 1;
+}
+
+.experiment__summary {
+  color: var(--fg-2);
+}
+
+/* The honesty label: what this is, and what it is not. */
+.experiment__note {
+  display: grid;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-left: 1px solid var(--line-3);
+  color: var(--fg-2);
+  font-size: var(--text-sm);
+}
+
+.experiment__body {
+  min-width: 0;
+  padding: var(--space-5);
+}
+
+.experiment__fallback {
+  display: grid;
+  place-items: center;
+  padding: var(--space-6);
+  text-align: center;
+  border-radius: var(--radius-md);
+  background-image: radial-gradient(circle at 1px 1px, var(--line-2) 1px, transparent 1.5px);
+  background-size: 22px 22px;
+}
+
+@media (min-width: 64rem) {
+  .experiment {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr);
+    gap: var(--space-8);
+  }
+
+  .experiment__head {
+    position: sticky;
+    top: calc(var(--nav-clearance) + var(--space-5));
+  }
+}
+
+/* ── Telemetry ────────────────────────────────────────── */
+.telemetry {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.telemetry__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: var(--text-sm);
+  font-weight: 560;
+  color: var(--fg);
+}
+
+/* Status light: shape and glow carry the state, not hue. */
+.telemetry__led {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--pearl-3);
+  box-shadow: inset 0 0 0 1px var(--line-2);
+}
+
+.telemetry__status[data-status='running'] .telemetry__led {
+  background: var(--ink-3);
+  box-shadow: 0 0 0 3px rgb(58 61 67 / 0.16);
+}
+
+.telemetry__status[data-status='loading'] .telemetry__led {
+  background: var(--ink-mute);
+  animation: telemetry-pulse 1.2s var(--ease-soft) infinite alternate;
+}
+
+@keyframes telemetry-pulse {
+  to {
+    opacity: 0.35;
+  }
+}
+
+.telemetry__status[data-status='static'] .telemetry__led {
+  background: var(--titanium);
+}
+
+.telemetry__status[data-status='failed'] .telemetry__led {
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--titanium);
+}
+
+.telemetry__reason {
+  color: var(--fg-2);
+}
+
+.telemetry__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.telemetry__grid div {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.telemetry__grid dd {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.telemetry__hint {
+  color: var(--fg-3);
+  font-size: var(--text-sm);
+}

@@ -1,0 +1,210 @@
+.rectifier {
+  container-type: inline-size;
+  display: grid;
+  gap: var(--space-4);
+}
+
+.rectifier__panes {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@container (min-width: 640px) {
+  .rectifier__panes {
+    grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.rectifier__pane {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.rectifier__stage {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #a8977f;
+  touch-action: none;
+}
+
+.rectifier__photo,
+.rectifier__overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.rectifier__grid {
+  stroke: var(--ink-3);
+  stroke-opacity: 0.45;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.rectifier__quad {
+  fill: rgb(28 29 33 / 0.05);
+  stroke: var(--ink-3);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Invalid shape: dashed and dimmed — the warning text says why. */
+.rectifier__quad.is-invalid {
+  fill: rgb(28 29 33 / 0.18);
+  stroke: var(--ink-soft);
+  stroke-dasharray: 6 5;
+}
+
+/* ── Glass handles ──────────────────────────────────────
+   Each corner is a small clear-glass lens over the photo, with a precise
+   centre point so placement stays exact. The hit area is 44px. */
+.rectifier__handle {
+  position: absolute;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: -1.375rem 0 0 -1.375rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: grab;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.rectifier__handle:active {
+  cursor: grabbing;
+}
+
+.rectifier__handle-dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 50%, var(--ink) 0 2.5px, rgb(255 255 255 / 0.9) 2.5px 4px, transparent 4px),
+    radial-gradient(circle at 32% 24%, rgb(255 255 255 / 0.75), transparent 45%),
+    rgb(255 255 255 / 0.22);
+  -webkit-backdrop-filter: blur(1.5px) brightness(1.12) saturate(1.3);
+  backdrop-filter: blur(1.5px) brightness(1.12) saturate(1.3);
+  box-shadow:
+    inset 0 1px 1px rgb(255 255 255 / 0.9),
+    inset 0 -1px 2px rgb(255 255 255 / 0.35),
+    inset 0 0 0 1px rgb(255 255 255 / 0.6),
+    0 0 0 1px rgb(28 29 33 / 0.3),
+    0 4px 10px rgb(52 48 40 / 0.35);
+  transform: translate(-50%, -50%);
+  transition: transform var(--dur-med) var(--ease-glass);
+}
+
+.rectifier__handle:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
+}
+
+.rectifier__handle:active .rectifier__handle-dot {
+  transform: translate(-50%, -50%) scale(1.3);
+}
+
+@media (hover: hover) {
+  .rectifier__handle:hover .rectifier__handle-dot {
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+}
+
+.rectifier__help {
+  color: var(--fg-3);
+  font-size: var(--text-sm);
+}
+
+.rectifier__out-frame {
+  position: relative;
+  max-width: 20rem;
+  aspect-ratio: 300 / 424;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--pearl-2);
+  box-shadow:
+    0 0 0 1px var(--line),
+    0 18px 40px -20px rgb(var(--shadow-color) / 0.45);
+}
+
+.rectifier__out {
+  width: 100%;
+  height: 100%;
+}
+
+.rectifier__warning {
+  position: absolute;
+  inset: auto 0.5rem 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  background: rgb(255 255 255 / 0.94);
+  box-shadow: 0 6px 16px -8px rgb(var(--shadow-color) / 0.5);
+  color: var(--ink);
+  font-size: var(--text-sm);
+}
+
+.rectifier__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+}
+
+.rectifier__filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-4);
+  margin: 0 0 0 auto;
+  padding: 0;
+  border: 0;
+}
+
+.rectifier__filters legend {
+  float: left;
+  margin-right: var(--space-2);
+  padding: 0;
+}
+
+.rectifier__filters label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.25rem;
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.rectifier__filters input {
+  accent-color: var(--ink-3);
+}
+
+.rectifier__matrix {
+  display: grid;
+  gap: var(--space-2);
+  justify-items: start;
+  margin: 0;
+}
+
+.rectifier__matrix table {
+  border-collapse: collapse;
+  border-left: 1px solid var(--line-3);
+  border-right: 1px solid var(--line-3);
+}
+
+.rectifier__matrix td {
+  padding: 0.2rem 0.75rem;
+  text-align: right;
+  color: var(--fg-2);
+  font-family: var(--font-code);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}

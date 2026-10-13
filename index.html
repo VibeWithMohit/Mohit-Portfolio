@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Mohit Kumar — Software Engineer · Systems in Motion</title>
+    <meta
+      name="description"
+      content="Mohit Kumar is a software engineer in Chandigarh, India. Selected work: BeamTransfer (optical file transfer on Android), Ambiora Hotel &amp; Resorts (cinematic hospitality web) and SGGS ERP (Django ERP and student-portal integration)."
+    />
+    <meta name="author" content="Mohit Kumar" />
+    <meta name="theme-color" content="#090a0c" />
+    <meta name="color-scheme" content="dark light" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Mohit Kumar — Systems in Motion" />
+    <meta
+      property="og:description"
+      content="Software engineer in Chandigarh, India. Real software, thoughtful systems, unexpected experiences."
+    />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin />
+    <link
+      rel="preload"
+      as="image"
+      href="/poster/core-1200.webp"
+      imagesrcset="/poster/core-640.webp 640w, /poster/core-1200.webp 1200w"
+      imagesizes="(min-width: 64rem) min(48vw, 80vh, 50rem), min(75vw, 50vh, 27.5rem)"
+      fetchpriority="high"
+    />
+    <script>
+      // Runs before first paint: decide motion mode so nothing animates that
+      // shouldn't. A stored choice from the in-page toggle wins over the OS.
+      (function () {
+        var root = document.documentElement;
+        root.classList.add('js');
+        var reduce = false;
+        try {
+          reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        } catch (e) {}
+        var stored = null;
+        try {
+          stored = window.localStorage.getItem('sim:motion');
+        } catch (e) {}
+        root.setAttribute('data-motion', stored === 'on' || stored === 'off' ? stored : reduce ? 'off' : 'on');
+      })();
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Mohit Kumar",
+        "jobTitle": "Software Engineer",
+        "email": "mailto:100mohit@gmail.com",
+        "worksFor": { "@type": "Organization", "name": "Rankfirst Technology Pvt. Ltd." },
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "Sri Guru Gobind Singh College, Sector 26, Chandigarh (Panjab University)"
+        },
+        "address": { "@type": "PostalAddress", "addressLocality": "Chandigarh", "addressCountry": "IN" },
+        "sameAs": ["https://www.linkedin.com/in/mohitkumar2822/", "https://github.com/VibeWithMohit"]
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"><!--app-html--></div>
+    <script type="module" src="/src/entry-client.tsx"></script>
+  </body>
+</html>

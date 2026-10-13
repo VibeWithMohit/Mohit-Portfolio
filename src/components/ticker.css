@@ -1,0 +1,100 @@
+/* ═══ Expertise ticker ══════════════════════════════════════ */
+.ticker {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: var(--z-content);
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+  /* The strip fades in and out at the edges of the page. */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+.ticker__track {
+  display: flex;
+  width: max-content;
+  animation: ticker-run 110s linear infinite;
+  animation-play-state: paused;
+}
+
+.ticker[data-active] .ticker__track {
+  animation-play-state: running;
+}
+
+@media (hover: hover) {
+  .ticker:hover .ticker__track {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes ticker-run {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.ticker__strip {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ticker__group {
+  display: flex;
+  align-items: center;
+  height: 3rem;
+}
+
+.ticker__domain,
+.ticker__skill {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ticker__domain {
+  padding-inline: var(--space-5) var(--space-4);
+  font-weight: 650;
+  color: var(--fg);
+}
+
+.ticker__skill {
+  font-weight: 500;
+  color: var(--fg-3);
+}
+
+/* A small glass bead between skills. */
+.ticker__skill + .ticker__skill::before {
+  content: '';
+  width: 0.3rem;
+  height: 0.3rem;
+  margin-inline: var(--space-3);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffffff, var(--silver) 55%, var(--titanium));
+}
+
+.ticker__group::after {
+  content: '';
+  width: 1px;
+  height: 1rem;
+  margin-left: var(--space-5);
+  background: var(--line-3);
+}
+
+/* Motion off: a static, scrollable list of the same information. */
+html[data-motion='off'] .ticker {
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+html[data-motion='off'] .ticker__track {
+  animation: none;
+}
+
+html[data-motion='off'] .ticker__strip--copy {
+  display: none;
+}

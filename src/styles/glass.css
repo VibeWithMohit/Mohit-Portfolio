@@ -1,0 +1,238 @@
+/*
+  Liquid Glass, translated to CSS — frosted white glass for a light page.
+
+  Apple's guidance (HIG › Materials) adapted for the web:
+  · Glass is a functional layer — navigation, primary actions and small
+    control panels float above content. Content itself sits on solid
+    "standard material" surfaces (see .surface). Used sparingly.
+  · Glass blurs and brightens what is behind it for legibility; on a light
+    page its edge, catch-light and shadow do the work of separating it.
+  · Interactive glass reacts to pointer, touch and keyboard focus alike.
+
+  Layers, back to front:
+    1. translucent white fill + a top-lit thickness gradient
+    2. backdrop blur / saturation / luminosity (and, in Chromium, an SVG
+       displacement that refracts the backdrop at the rim)
+    3. inner catch-light along the top, a faint lower bounce and a hairline
+    4. ::after — an illuminated rim, bright where light enters (top-left),
+       shaded where the glass turns away (bottom-right)
+    5. ::before — a soft top specular, plus a pointer-tracked highlight
+    6. layered soft shadows for separation from what is beneath
+*/
+@property --g-glow {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+.glass {
+  --g-alpha: var(--glass-alpha);
+  --g-blur: 22px;
+  --g-saturate: 1.8;
+  --g-radius: var(--radius-pill);
+  --g-x: 50%;
+  --g-y: 50%;
+  position: relative;
+  isolation: isolate;
+  border-radius: var(--g-radius);
+  color: var(--glass-label);
+  background-color: rgb(var(--glass-fill) / var(--g-alpha));
+  background-image: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 0.5) 0%,
+    rgb(255 255 255 / 0.08) 45%,
+    rgb(28 29 33 / 0.025) 100%
+  );
+  -webkit-backdrop-filter: blur(var(--g-blur)) saturate(var(--g-saturate)) brightness(var(--glass-backdrop));
+  backdrop-filter: blur(var(--g-blur)) saturate(var(--g-saturate)) brightness(var(--glass-backdrop));
+  box-shadow:
+    inset 0 1px 0.5px rgb(255 255 255 / var(--glass-top-light)),
+    inset 0 -1px 1px rgb(255 255 255 / 0.5),
+    inset 0 0 0 0.5px rgb(28 29 33 / 0.1),
+    inset 0 -12px 22px -18px rgb(28 29 33 / 0.08),
+    0 0.5px 1px rgb(var(--shadow-color) / 0.16),
+    0 8px 20px -8px rgb(var(--shadow-color) / var(--glass-shadow)),
+    0 28px 56px -28px rgb(var(--shadow-color) / var(--glass-shadow));
+  transition:
+    background-color var(--dur-med) var(--ease-soft),
+    color var(--dur-med) var(--ease-soft),
+    box-shadow var(--dur-med) var(--ease-soft),
+    transform var(--dur-med) var(--ease-glass),
+    translate 0.45s var(--ease-glass),
+    --g-glow var(--dur-med) var(--ease-soft);
+}
+
+/* Specular: a soft top highlight, and one that follows the pointer. */
+.glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(85% 70% at 28% -18%, rgb(255 255 255 / 0.65), transparent 62%),
+    radial-gradient(
+      circle 9rem at var(--g-x) var(--g-y),
+      rgb(255 255 255 / calc(var(--g-glow) * 0.55)),
+      transparent 72%
+    );
+}
+
+/* Illuminated rim. */
+.glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    rgb(255 255 255 / 1) 0%,
+    rgb(255 255 255 / 0.55) 30%,
+    rgb(28 29 33 / 0.06) 62%,
+    rgb(28 29 33 / 0.16) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  opacity: calc(0.8 + var(--g-glow) * 0.2);
+}
+
+/* ── Variants ───────────────────────────────────────── */
+
+/* Thick: more opaque, for text-heavy glass (menu sheet). */
+.glass--thick {
+  --g-alpha: calc(var(--glass-alpha) + 0.18);
+  --g-blur: 30px;
+}
+
+/* Prominent: a filled, "tinted" glass for the primary action — graphite. */
+.glass--prominent {
+  --glass-fill: 58 61 67;
+  --g-alpha: 0.94;
+  --glass-backdrop: 1;
+  --glass-top-light: 0.4;
+  --glass-shadow: 0.32;
+  color: var(--pearl);
+  background-image: linear-gradient(
+    180deg,
+    rgb(255 255 255 / 0.16) 0%,
+    rgb(255 255 255 / 0.03) 48%,
+    rgb(0 0 0 / 0.08) 100%
+  );
+}
+
+.glass--prominent::before {
+  background:
+    radial-gradient(85% 70% at 28% -18%, rgb(255 255 255 / 0.22), transparent 62%),
+    radial-gradient(
+      circle 9rem at var(--g-x) var(--g-y),
+      rgb(255 255 255 / calc(var(--g-glow) * 0.2)),
+      transparent 72%
+    );
+}
+
+.glass--prominent::after {
+  background: linear-gradient(
+    135deg,
+    rgb(255 255 255 / 0.55) 0%,
+    rgb(255 255 255 / 0.12) 30%,
+    rgb(255 255 255 / 0.04) 58%,
+    rgb(255 255 255 / 0.22) 100%
+  );
+}
+
+/* ── Interactive glass (pointer, touch and keyboard equivalents) ── */
+.glass--interactive {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+  .glass--interactive:hover {
+    --g-glow: 1;
+  }
+}
+
+.glass--interactive:focus-visible {
+  --g-glow: 1;
+  --g-x: 50%;
+  --g-y: 50%;
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.glass--interactive:active {
+  --g-glow: 1.4;
+  transform: scale(0.965);
+}
+
+/* Refraction at the rim — Chromium only (feature-detected in JS), where
+   backdrop-filter accepts SVG filter references. */
+.supports-refraction .glass--refract {
+  -webkit-backdrop-filter: url(#glass-refraction) blur(var(--g-blur)) saturate(var(--g-saturate)) brightness(var(--glass-backdrop));
+  backdrop-filter: url(#glass-refraction) blur(var(--g-blur)) saturate(var(--g-saturate)) brightness(var(--glass-backdrop));
+}
+
+/* ── Fallbacks and user preferences ────────────────── */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass {
+    --g-alpha: 0.94;
+  }
+}
+
+/* Reduce Transparency: glass becomes an opaque material. */
+@media (prefers-reduced-transparency: reduce) {
+  .glass,
+  .supports-refraction .glass--refract {
+    --g-alpha: 0.97;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* Increase Contrast: opaque fill and a definite edge. */
+@media (prefers-contrast: more) {
+  .glass {
+    --g-alpha: 0.97;
+    border: 1px solid currentColor;
+  }
+
+  .glass::before,
+  .glass::after {
+    display: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .glass {
+    border: 1px solid CanvasText;
+    background: Canvas;
+    color: CanvasText;
+    box-shadow: none;
+  }
+
+  .glass::before,
+  .glass::after {
+    display: none;
+  }
+}
+
+/* ── Standard material (content layer, not glass) ───── */
+.surface {
+  position: relative;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow:
+    inset 0 1px 0 var(--surface-sheen),
+    inset 0 0 0 1px var(--line),
+    0 1px 2px rgb(var(--shadow-color) / 0.08),
+    0 22px 44px -26px rgb(var(--shadow-color) / 0.28);
+}

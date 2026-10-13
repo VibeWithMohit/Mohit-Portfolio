@@ -1,0 +1,279 @@
+/* ═══ 03 — Systems Map ════════════════════════════════════ */
+
+/* ── Glass segmented control ───────────────────────────
+   Floats just below the navigation while the matrix scrolls beneath it, so
+   the glass has real content to sit over. */
+.systems__controls {
+  --g-radius: var(--radius-pill);
+  position: sticky;
+  top: calc(var(--nav-clearance) + 1.25rem);
+  z-index: 5;
+  display: flex;
+  gap: 0.125rem;
+  width: max-content;
+  max-width: 100%;
+  margin-bottom: var(--space-6);
+  padding: 0.25rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.systems__controls::-webkit-scrollbar {
+  display: none;
+}
+
+.systems__lens {
+  position: absolute;
+  top: 0.25rem;
+  bottom: 0.25rem;
+  left: 0;
+  width: var(--lens-w, 0);
+  translate: var(--lens-x, 0) 0;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(180deg, #ffffff 0%, #f8f7f3 100%);
+  box-shadow:
+    inset 0 1px 0 #ffffff,
+    0 0 0 0.5px rgb(28 29 33 / 0.1),
+    0 1px 2px rgb(var(--shadow-color) / 0.14),
+    0 6px 14px -6px rgb(var(--shadow-color) / 0.32);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.systems__controls[data-lens] .systems__lens {
+  opacity: 1;
+  transition:
+    translate var(--dur-slow) var(--ease-glass),
+    width var(--dur-slow) var(--ease-glass);
+}
+
+.systems__filter {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  min-height: 2.5rem;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--glass-label);
+  font-size: var(--text-sm);
+  font-weight: 560;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-fast) linear,
+    transform var(--dur-med) var(--ease-glass);
+}
+
+.systems__filter-index {
+  color: var(--fg-3);
+  font-size: var(--text-xs);
+}
+
+/* Until the lens is placed (no JS yet), the pressed segment draws its own thumb. */
+.systems__controls:not([data-lens]) .systems__filter[aria-pressed='true'] {
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgb(var(--shadow-color) / 0.2);
+}
+
+.systems__filter:active {
+  transform: scale(0.96);
+}
+
+.systems__filter:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
+  border-radius: var(--radius-pill);
+}
+
+@media (hover: hover) {
+  .systems__filter[aria-pressed='false']:hover {
+    background: rgb(28 29 33 / 0.05);
+  }
+}
+
+@media (max-width: 30rem) {
+  .systems__filter {
+    padding: 0 0.7rem;
+  }
+
+  .systems__filter-index,
+  .systems__filter-more {
+    display: none;
+  }
+}
+
+/* ── Matrix, on a standard material ───────────────────── */
+.systems__scroll {
+  overflow-x: auto;
+  padding: var(--space-2) var(--space-5) var(--space-5);
+}
+
+.matrix {
+  --bus: var(--line-2);
+  width: 100%;
+  min-width: 34rem;
+  border-collapse: collapse;
+  font-size: var(--text-base);
+}
+
+.matrix__col-skill {
+  width: 46%;
+}
+
+.matrix th,
+.matrix td {
+  padding: 0;
+  text-align: left;
+  font-weight: inherit;
+}
+
+.matrix thead th {
+  padding: var(--space-5) var(--space-3) var(--space-4);
+  vertical-align: bottom;
+  border-bottom: 1px solid var(--line-2);
+}
+
+.matrix__project {
+  text-align: center !important;
+}
+
+.matrix__project a {
+  display: inline-grid;
+  justify-items: center;
+  align-content: center;
+  gap: 0.15rem;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0.25rem;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  text-decoration: none;
+}
+
+.matrix__project-index {
+  color: var(--fg-3);
+  font-size: var(--text-xs);
+  font-weight: 560;
+}
+
+@media (hover: hover) {
+  .matrix__project a:hover .matrix__project-name {
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+  }
+}
+
+.matrix__project.is-active .matrix__project-name {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.35em;
+}
+
+.matrix__domain th {
+  padding: var(--space-6) var(--space-3) var(--space-2);
+  border-bottom: 1px solid var(--line);
+}
+
+.matrix__domain-title {
+  display: block;
+  font-size: var(--text-md);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.matrix__domain-summary {
+  display: block;
+  color: var(--fg-3);
+  font-size: var(--text-sm);
+}
+
+.matrix__skill {
+  padding: 0.6rem var(--space-3) !important;
+  border-bottom: 1px solid var(--line);
+  transition: color var(--dur-med) var(--ease-soft);
+}
+
+/* Rows without evidence for the chosen project recede — but stay readable. */
+.matrix__row.is-dim .matrix__skill {
+  color: var(--fg-3);
+}
+
+/* Each project column is a vertical bus; evidence taps into it. */
+.matrix__cell {
+  position: relative;
+  height: 2.6rem;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(var(--bus), var(--bus)) center / 1px 100% no-repeat;
+}
+
+.matrix__cell.is-active {
+  --bus: rgb(28 29 33 / 0.5);
+}
+
+.matrix__cell.has-evidence::before {
+  /* Trace from the left edge of the cell into the dot. */
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 50%;
+  top: 50%;
+  height: 1px;
+  background: var(--line-2);
+}
+
+/* Evidence: a small polished bead. */
+.matrix__dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #b4b9c0 0%, #4a4e56 45%, #2c2f34 100%);
+  box-shadow:
+    0 0 0 3px var(--surface),
+    0 2px 4px 3px rgb(var(--shadow-color) / 0.1);
+  transform: translate(-50%, -50%);
+  transition:
+    transform var(--dur-med) var(--ease-glass),
+    opacity var(--dur-med) var(--ease-soft);
+}
+
+.matrix__cell.is-active .matrix__dot {
+  transform: translate(-50%, -50%) scale(1.3);
+}
+
+.matrix__row.is-dim .matrix__dot {
+  opacity: 0.3;
+}
+
+@media (max-width: 40rem) {
+  .systems__scroll {
+    padding-inline: var(--space-3);
+  }
+
+  .matrix {
+    min-width: 0;
+    font-size: var(--text-sm);
+  }
+
+  .matrix__col-skill {
+    width: 52%;
+  }
+
+  /* Keep the project name for assistive tech; show only the index visually. */
+  .matrix__project-name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}

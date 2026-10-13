@@ -1,0 +1,39 @@
+{
+  "name": "mohit-systems-in-motion",
+  "private": true,
+  "version": "0.1.0",
+  "description": "SYSTEMS IN MOTION — the portfolio of Mohit Kumar, Software Engineer.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs",
+    "preview": "vite preview",
+    "typecheck": "tsc -b",
+    "lint": "oxlint",
+    "test": "vitest run",
+    "verify": "node scripts/verify-dist.mjs",
+    "check": "npm run typecheck && npm run lint && npm run test",
+    "capture": "node scripts/capture.mjs",
+    "poster": "node scripts/poster.mjs",
+    "test:keyboard": "node scripts/a11y-keyboard.mjs"
+  },
+  "dependencies": {
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.1",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.186.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "oxlint": "^1.87.0",
+    "typescript": "~6.0.3",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.3"
+  }
+}

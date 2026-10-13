@@ -1,0 +1,27 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+dist-ssr
+*.tsbuildinfo
+
+# Local measurement output (summaries live in README / docs)
+reports
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Environment
+*.local
+.env
+.env.*
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.sw?

@@ -1,0 +1,226 @@
+.channel {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.channel__input {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.channel__input input {
+  min-width: 0;
+  min-height: 2.75rem;
+  padding: 0 0.95rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  box-shadow:
+    inset 0 0 0 1px var(--line-3),
+    inset 0 2px 4px rgb(28 29 33 / 0.06);
+  color: var(--fg);
+  font-family: var(--font-code);
+  font-size: var(--text-sm);
+}
+
+.channel__input input:focus-visible {
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+@media (max-width: 36rem) {
+  .channel__input {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.channel__graph {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.channel__axis {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  fill: var(--fg-3);
+}
+
+.channel__edge {
+  stroke: rgb(28 29 33 / 0.22);
+  stroke-width: 1;
+}
+
+.channel__block rect {
+  fill: var(--bg);
+  stroke: rgb(28 29 33 / 0.36);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  transition:
+    fill var(--dur-med) linear,
+    stroke var(--dur-med) linear;
+}
+
+.channel__block .channel__chars {
+  font-family: var(--font-code);
+  font-size: 12px;
+  fill: var(--fg-3);
+  white-space: pre;
+}
+
+.channel__block .channel__index {
+  font-family: var(--font-sans);
+  font-size: 8px;
+  font-weight: 600;
+  fill: var(--fg-3);
+}
+
+/* A recovered block turns solid graphite. */
+.channel__block.is-solved rect {
+  fill: var(--ink-3);
+  stroke: var(--ink-3);
+  stroke-dasharray: none;
+}
+
+.channel__block.is-solved .channel__chars,
+.channel__block.is-solved .channel__index {
+  fill: var(--pearl);
+}
+
+.channel__block.is-fresh rect {
+  animation: channel-flash 0.7s var(--ease-out);
+}
+
+@keyframes channel-flash {
+  from {
+    fill: var(--ink);
+    filter: drop-shadow(0 2px 6px rgb(28 29 33 / 0.45));
+  }
+}
+
+.channel__drop circle {
+  fill: var(--white);
+  stroke: var(--ink-soft);
+  stroke-width: 1;
+}
+
+.channel__drop text {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  fill: var(--ink-soft);
+}
+
+.channel__strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  min-height: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.channel__strip li {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 3px;
+}
+
+.channel__strip .is-received {
+  background: var(--ink-3);
+  opacity: 0.85;
+}
+
+/* Lost frames: hollow and struck through — shape, not colour. */
+.channel__strip .is-lost {
+  box-shadow: inset 0 0 0 1px var(--titanium);
+  background: linear-gradient(45deg, transparent 44%, var(--titanium) 44% 56%, transparent 56%);
+}
+
+.channel__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+}
+
+.channel__loss {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-left: auto;
+}
+
+.channel__loss input {
+  width: 8rem;
+  accent-color: var(--ink-3);
+}
+
+.channel__loss output {
+  min-width: 3ch;
+  font-size: var(--text-sm);
+  font-weight: 560;
+}
+
+.channel__stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2) var(--space-5);
+  margin: 0;
+  font-size: var(--text-sm);
+}
+
+.channel__stats div {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5em;
+}
+
+.channel__stats dd {
+  margin: 0;
+  font-weight: 560;
+  font-variant-numeric: tabular-nums;
+}
+
+.channel__lost {
+  text-decoration: line-through;
+  text-decoration-color: var(--fg-3);
+}
+
+.channel__output {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--bg);
+  box-shadow: inset 0 0 0 1px var(--line-2);
+  transition: box-shadow var(--dur-med) var(--ease-soft);
+}
+
+.channel__output.is-complete {
+  box-shadow:
+    inset 0 0 0 1.5px var(--ink-3),
+    0 10px 24px -14px rgb(var(--shadow-color) / 0.4);
+}
+
+.channel__output.is-complete .channel__output-label {
+  color: var(--fg);
+}
+
+.channel__decoded {
+  font-family: var(--font-code);
+  font-size: var(--text-sm);
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.channel__summary {
+  color: var(--fg-2);
+  font-size: var(--text-sm);
+}

@@ -1,0 +1,135 @@
+/*
+  SYSTEMS IN MOTION — design tokens (Liquid Glass, light)
+  A bright studio: pearl and white surfaces, silver and titanium for
+  structure, graphite ink for type. No colour accents — variation comes from
+  light, reflection, shadow and the content behind glass.
+
+  Three tiers: primitives → semantic surface tokens (.theme-light /
+  .theme-white) → components. Glass label tokens are separate from content
+  text tokens because glass sits over unknown content.
+
+  Contrast, measured (WCAG 2.2):
+    ink #1c1d21 on pearl 15.3 · white 16.8 · pearl-2 14.0
+    #45484f on pearl 8.3 · #656a72 on pearl 5.0 · white 5.4 · pearl-2 4.5
+    title gradient end #5a5f68 on pearl 5.8 (large type)
+    pearl on the graphite primary action #3a3d43: 9.9
+    Worst-case glass composite: light glass (68% white) over the darkest
+    imagery on the page (#1d1915) — ink 7.6, secondary label 5.1
+*/
+:root {
+  /* ── Primitives ─────────────────────────────────────── */
+  --pearl: #f5f4f0;
+  --pearl-2: #eceae4;
+  --pearl-3: #dfddd6;
+  --silver: #c9cdd2;
+  --titanium: #858b94;
+  --ink-3: #3a3d43;
+  --white: #ffffff;
+  --ink: #1c1d21;
+  --ink-soft: #45484f;
+  --ink-mute: #656a72;
+
+  /* ── Type ───────────────────────────────────────────── */
+  --font-sans: 'Inter', 'Inter Fallback', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Byte-level data only (decoded text, block contents): the platform's own
+     monospace — nothing to download. */
+  --font-code: ui-monospace, 'SF Mono', 'Cascadia Mono', 'Segoe UI Mono', Menlo, Consolas, monospace;
+
+  --text-2xs: 0.6875rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
+  --text-md: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --text-lg: clamp(1.25rem, 1.1rem + 0.7vw, 1.75rem);
+  --text-xl: clamp(1.625rem, 1.3rem + 1.6vw, 2.75rem);
+  --text-2xl: clamp(2.25rem, 1.4rem + 3.6vw, 5rem);
+  --text-3xl: clamp(2.75rem, 1.4rem + 5vw, 6.5rem);
+  --text-display: clamp(5rem, 1.8rem + 14vw, 14.5rem);
+
+  --leading-tight: 0.9;
+  --leading-snug: 1.15;
+  --leading-body: 1.6;
+  --tracking-display: -0.055em;
+  --tracking-title: -0.04em;
+  --tracking-label: 0.14em;
+
+  /* ── Space & layout ─────────────────────────────────── */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-10: 8rem;
+  --gutter: clamp(1.25rem, 0.6rem + 2.8vw, 3rem);
+  --section-pad: clamp(5rem, 3rem + 8vw, 11rem);
+  --content-max: 88rem;
+  --measure: 60ch;
+  --nav-h: 3.5rem;
+  --nav-top: clamp(0.75rem, 0.5rem + 0.6vw, 1.125rem);
+  --nav-clearance: calc(var(--nav-h) + var(--nav-top) * 2);
+
+  /* ── Shape ─────────────────────────────────────────── */
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
+  --radius-xl: 36px;
+  --radius-pill: 999px;
+
+  /* ── Motion ────────────────────────────────────────── */
+  --ease-out: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-glass: cubic-bezier(0.32, 1.3, 0.56, 1); /* slight overshoot: liquid settle */
+  --dur-fast: 160ms;
+  --dur-med: 360ms;
+  --dur-slow: 720ms;
+  --dur-xslow: 1100ms;
+
+  /* ── Elevation ─────────────────────────────────────── */
+  --z-core: 2; /* the sculpture canvas: above section backgrounds */
+  --z-content: 3; /* section content: above the sculpture */
+  --z-edge: 40;
+  --z-nav: 50;
+  --z-skip: 200;
+}
+
+/* ── Semantic surfaces ──────────────────────────────── */
+:root,
+.theme-light {
+  --bg: var(--pearl);
+  --surface: var(--white);
+  --surface-2: var(--pearl-2);
+  --surface-3: var(--pearl-3);
+  --fg: var(--ink);
+  --fg-2: var(--ink-soft);
+  --fg-3: var(--ink-mute);
+  --line: rgb(28 29 33 / 0.08);
+  --line-2: rgb(28 29 33 / 0.14);
+  --line-3: rgb(28 29 33 / 0.46); /* ≥3:1 — interactive boundaries */
+  --focus: var(--ink);
+  --title-top: #17181c;
+  --title-bottom: #5a5f68;
+  --surface-sheen: rgb(255 255 255 / 0.9);
+  --shadow-color: 52 48 40;
+
+  /* Glass that sits on this surface: frosted white. */
+  --glass-fill: 255 255 255;
+  --glass-alpha: 0.68;
+  --glass-backdrop: 1.04;
+  --glass-label: var(--ink);
+  --glass-label-2: #3d4047;
+  --glass-top-light: 1;
+  --glass-shadow: 0.2;
+  color-scheme: light;
+}
+
+/* Alternate light surface: white sections with pearl cards. */
+.theme-white {
+  --bg: var(--white);
+  --surface: var(--pearl);
+  --surface-2: var(--pearl-2);
+  --surface-sheen: rgb(255 255 255 / 0.7);
+}

@@ -1,0 +1,228 @@
+/* ═══ 02 — Selected work ══════════════════════════════════ */
+.work__intro {
+  padding-bottom: var(--space-7);
+}
+
+.work__toc {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line-2);
+}
+
+.work__toc-link {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 3.25rem;
+  border-bottom: 1px solid var(--line-2);
+  font-size: var(--text-md);
+  font-weight: 560;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  transition: padding var(--dur-med) var(--ease-out);
+}
+
+.work__toc-index {
+  font-size: var(--text-xs);
+  color: var(--fg-3);
+}
+
+.work__toc-link .icon {
+  color: var(--fg-3);
+}
+
+@media (hover: hover) {
+  .work__toc-link:hover {
+    padding-left: 0.35rem;
+  }
+
+  .work__toc-link:hover .icon {
+    color: var(--fg);
+    transform: translateY(2px);
+  }
+}
+
+/* ── Project chapter ──────────────────────────────────── */
+.project {
+  position: relative;
+  background: var(--bg);
+  color: var(--fg);
+  padding-block: clamp(4.5rem, 3rem + 6vw, 9rem);
+}
+
+.project__inner {
+  position: relative;
+  display: grid;
+  gap: clamp(2.25rem, 1.25rem + 3vw, 4rem);
+}
+
+/* The chapter's text and figure sit above the sculpture layer; the stage
+   (the still and its glow) stays beneath it, where the live glass draws. */
+.project__head-text,
+.project__body,
+.depth-stage {
+  position: relative;
+  z-index: var(--z-content);
+}
+
+/* ── Chapter opening: the sculpture arrives in this project's form ── */
+.project__head {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.project__head-text {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.project__stage {
+  order: -1;
+  width: min(60vw, 40vh, 22rem);
+  justify-self: center;
+}
+
+.project__title {
+  font-size: clamp(2.75rem, 1.2rem + 5.4vw, 7rem);
+}
+
+.project__headline {
+  font-size: var(--text-lg);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  color: var(--fg-2);
+}
+
+/* Depth-aware entrance (see DepthStage). */
+.depth-stage {
+  --enter: 1;
+  perspective: 1400px;
+}
+
+.depth-stage > .fig {
+  transform-origin: 50% 100%;
+  transform: translate3d(0, calc((1 - var(--enter)) * 3rem), calc((1 - var(--enter)) * -140px))
+    rotateX(calc((1 - var(--enter)) * 7deg));
+  opacity: calc(0.3 + var(--enter) * 0.7);
+  will-change: transform;
+}
+
+html[data-motion='off'] .depth-stage > .fig {
+  transform: none;
+  opacity: 1;
+}
+
+.project__body {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.project__summary {
+  max-width: 60ch;
+  font-size: var(--text-md);
+  line-height: 1.6;
+  color: var(--fg-2);
+}
+
+.project__insight {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-6);
+  padding: var(--space-5) var(--space-6);
+  border-radius: var(--radius-md);
+}
+
+.project__insight-title {
+  font-size: var(--text-md);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.project__insight p {
+  max-width: 58ch;
+  color: var(--fg-2);
+}
+
+.project__note {
+  display: grid;
+  gap: var(--space-1);
+  max-width: 60ch;
+  margin-top: var(--space-5);
+  font-size: var(--text-sm);
+  color: var(--fg-2);
+}
+
+.project__spec {
+  display: grid;
+  gap: var(--space-6);
+  align-content: start;
+}
+
+.project__caps {
+  display: grid;
+  gap: var(--space-4);
+  margin: 0;
+}
+
+.project__cap {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line-2);
+}
+
+.project__cap dt {
+  padding-top: 0.2rem;
+}
+
+.project__cap dd {
+  margin: 0;
+}
+
+.project__cap ul {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+}
+
+.project__cap li {
+  color: var(--fg);
+}
+
+.project__ask {
+  justify-self: start;
+}
+
+@media (min-width: 64rem) {
+  .project__head {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-8);
+  }
+
+  .project__head-text {
+    grid-column: 1;
+  }
+
+  .project__stage {
+    order: 0;
+    grid-column: 2;
+    width: min(30vw, 54vh, 26rem);
+  }
+
+  .project__body {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: var(--space-9);
+  }
+}
+
+@media (max-width: 30rem) {
+  .project__cap {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2);
+  }
+}

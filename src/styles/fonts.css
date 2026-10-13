@@ -1,0 +1,23 @@
+/*
+  Inter (SIL OFL — licence in /public/fonts), self-hosted as one subset
+  variable file: optical size 14–32 (applied automatically by
+  font-optical-sizing) and weight 300–700. 52 KB.
+  The fallback face is metric-matched to Inter (computed with fontTools) so
+  the swap from system font to web font barely moves the layout.
+*/
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter-var.woff2') format('woff2');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter Fallback';
+  src: local('Arial'), local('ArialMT'), local('Liberation Sans'), local('Helvetica');
+  size-adjust: 107.73%;
+  ascent-override: 89.92%;
+  descent-override: 22.39%;
+  line-gap-override: 0%;
+}

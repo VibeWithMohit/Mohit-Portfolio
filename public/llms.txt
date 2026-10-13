@@ -1,0 +1,17 @@
+# Mohit Kumar — Systems in Motion
+
+> Portfolio of Mohit Kumar, a software engineer in Chandigarh, India. Software Engineer at Rankfirst Technology Pvt. Ltd. since 22 April 2024; Bachelor of Computer Applications, Sri Guru Gobind Singh College, Sector 26, Chandigarh (Panjab University), 2025.
+
+The whole site is a single page with these sections: The Signal (#top), Selected Work (#work), Systems Map (#systems), Experience (#experience), The Lab (#lab), About (#about) and Contact (#contact).
+
+## Selected work
+
+- [BeamTransfer](/#project-beamtransfer): native Android application (Java, XML) for optical file transfer through streaming fountain-coded QR frames, with camera-based reception, file reconstruction, printable QR sheets, document scanning, perspective correction, image filters, batch processing and local history.
+- [Ambiora Hotel & Resorts](/#project-ambiora): cinematic hospitality marketing website built with Core PHP, custom routing and views, data-driven content, responsive imagery, JavaScript modules, Motion and Lenis.
+- [SGGS ERP](/#project-sggs-erp): Django-based institutional ERP and student-portal integration, including API integration, environment-driven configuration and deployment workflows.
+
+## Contact
+
+- Email: 100mohit@gmail.com
+- GitHub: https://github.com/VibeWithMohit
+- LinkedIn: https://www.linkedin.com/in/mohitkumar2822/

@@ -1,0 +1,120 @@
+/* ═══ The sculpture layer ═══════════════════════════════════
+   One fixed, transparent canvas between the page's backgrounds and its
+   content. Sections keep their backgrounds below it; their content wrappers
+   sit above it (see .sheet > .container, .hero__inner, .project__inner), so
+   text can overlap the glass and glass controls can blur it. */
+.core-layer {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-core);
+  pointer-events: none;
+}
+
+.core-layer canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s var(--ease-soft);
+}
+
+.core-layer[data-mode='live'] canvas {
+  opacity: 1;
+}
+
+/* ── Anchors: where the sculpture appears ─────────────────
+   Each holds a still of its form (paints first; stays when there is no
+   WebGL) and the glow the sculpture sits in. The live canvas draws the
+   glass over this box. */
+.core-anchor {
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: 1;
+}
+
+/* The glow: the same falloff the scene refracts (exp(-1.2 r²), r in diameters). */
+.core-anchor::before {
+  content: '';
+  position: absolute;
+  inset: -130%;
+  z-index: -1;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    closest-side,
+    rgb(255 255 255 / 1) 0%,
+    rgb(255 255 255 / 0.9) 16.7%,
+    rgb(255 255 255 / 0.65) 33.3%,
+    rgb(255 255 255 / 0.38) 50%,
+    rgb(255 255 255 / 0.18) 66.7%,
+    rgb(255 255 255 / 0.07) 83.3%,
+    rgb(255 255 255 / 0) 100%
+  );
+}
+
+/* A soft contact shadow beneath the live glass (the stills carry their own). */
+.core-anchor::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 88%;
+  z-index: -1;
+  width: 64%;
+  height: 11%;
+  translate: -50% -50%;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgb(28 29 33 / 0.16), rgb(28 29 33 / 0.05) 55%, transparent 72%);
+  opacity: 0;
+  transition: opacity 1s var(--ease-soft);
+}
+
+html[data-core='live'] .core-anchor::after {
+  opacity: 1;
+}
+
+/* The stills span 1/0.8 of the sculpture's diameter (they were rendered that
+   way), on their section's colour, feathered so their edges dissolve into
+   the glow around them. */
+.core-still {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 125%;
+  height: auto;
+  max-width: none;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  -webkit-mask-image: radial-gradient(closest-side, #000 68%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 68%, transparent 100%);
+  transition: opacity 1s var(--ease-soft);
+}
+
+html[data-core='live'] .core-still {
+  opacity: 0;
+}
+
+/* ═══ Still rendering (scripts/poster.mjs) ══════════════════ */
+.poster-mode .skip-link,
+.poster-mode .site-header,
+.poster-mode .scroll-edge,
+.poster-mode .hero__inner,
+.poster-mode .ticker,
+.poster-mode main > :not(#top),
+.poster-mode .site-footer {
+  display: none !important;
+}
+
+.poster-mode .hero {
+  --core-x: 50%;
+  --core-y: 50%;
+  --core-size: 80vmin;
+  min-height: 100vh;
+  background: transparent;
+}
+
+.poster-mode .core-still,
+.poster-mode .core-anchor::before,
+.poster-mode .core-anchor::after {
+  display: none;
+}

@@ -1,0 +1,64 @@
+/* ── Section head ──────────────────────────────────────── */
+.section-head {
+  display: grid;
+  gap: var(--space-5);
+  margin-bottom: clamp(3rem, 2rem + 4vw, 6rem);
+}
+
+.section-head__body {
+  display: grid;
+  gap: var(--space-6);
+  align-items: end;
+}
+
+.section-head__title {
+  font-size: var(--text-3xl);
+}
+
+.section-head__meta {
+  display: grid;
+  gap: var(--space-5);
+  align-content: end;
+}
+
+.section-head__meta .lede {
+  max-width: 42ch;
+}
+
+@media (min-width: 64rem) {
+  .section-head__body {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: var(--space-8);
+  }
+}
+
+/* ── Figure frame (content layer: a standard material) ── */
+.fig {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.fig__frame {
+  overflow: hidden;
+}
+
+.fig__caption {
+  display: grid;
+  gap: var(--space-2);
+  max-width: 72ch;
+  padding-inline: var(--space-2);
+  color: var(--fg-3);
+  font-size: var(--text-sm);
+  line-height: 1.55;
+}
+
+.fig__label {
+  color: var(--fg-2);
+}
+
+@media (min-width: 48rem) {
+  .fig__caption {
+    grid-template-columns: minmax(10rem, auto) 1fr;
+    gap: var(--space-5);
+  }
+}

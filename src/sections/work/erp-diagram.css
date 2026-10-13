@@ -1,0 +1,229 @@
+.erp {
+  container-type: inline-size;
+  display: grid;
+}
+
+.erp__stage {
+  padding: var(--space-6) var(--space-5) var(--space-4);
+  background:
+    radial-gradient(ellipse 70% 60% at 60% 30%, var(--white), transparent 70%),
+    radial-gradient(circle at 1px 1px, rgb(28 29 33 / 0.1) 1px, transparent 1.5px) 0 0 / 22px 22px;
+}
+
+.erp__stage--narrow {
+  display: none;
+}
+
+@container (max-width: 640px) {
+  .erp__stage--wide {
+    display: none;
+  }
+
+  .erp__stage--narrow {
+    display: block;
+    padding-inline: var(--space-3);
+  }
+}
+
+.erp__canvas {
+  position: relative;
+  width: 100%;
+}
+
+.erp__wires {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.erp__label {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  fill: var(--fg-3);
+}
+
+.erp__wire {
+  fill: none;
+  stroke: rgb(28 29 33 / 0.3);
+  stroke-width: 1.2;
+  transition: stroke var(--dur-med) linear;
+}
+
+.erp__edge--config .erp__wire {
+  stroke-dasharray: 5 5;
+}
+
+.erp__edge--hosts .erp__wire {
+  stroke-dasharray: 1 5;
+  stroke-linecap: round;
+}
+
+.erp__arrowhead {
+  fill: rgb(28 29 33 / 0.45);
+}
+
+.erp__edge.is-active .erp__wire {
+  stroke: var(--ink-3);
+}
+
+/* Data in flight: graphite packets, lighter on the way back. */
+.erp__packet {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 0.5 99.5;
+  stroke-dashoffset: 0;
+  opacity: 0;
+  animation: erp-packet 2.6s linear infinite;
+}
+
+.erp__packet--back {
+  stroke: var(--ink-mute);
+  animation-direction: reverse;
+  animation-delay: -1.3s;
+}
+
+.erp__edge.is-active .erp__packet {
+  opacity: 1;
+}
+
+.erp__edge--config .erp__packet {
+  stroke: var(--titanium);
+}
+
+@keyframes erp-packet {
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+
+html[data-motion='off'] .erp__packet {
+  display: none;
+}
+
+/* Packets only run while the figure is on screen. */
+.erp:not([data-active]) .erp__packet {
+  animation-play-state: paused;
+}
+
+/* ── Components ─────────────────────────────────────── */
+.erp__node {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  align-content: center;
+  gap: 0.1rem;
+  padding: 0 0.95rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(180deg, var(--white), #faf9f6);
+  box-shadow:
+    inset 0 0 0 1px rgb(28 29 33 / 0.12),
+    0 1px 2px rgb(var(--shadow-color) / 0.08),
+    0 10px 20px -14px rgb(var(--shadow-color) / 0.45);
+  color: var(--fg);
+  text-align: left;
+  transition:
+    box-shadow var(--dur-fast) linear,
+    color var(--dur-med) var(--ease-soft);
+}
+
+.erp__node-kicker {
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  transition: color var(--dur-med) var(--ease-soft);
+}
+
+.erp__node-title {
+  font-size: clamp(0.8rem, 0.7rem + 0.45cqi, 1rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+/* Configuration is not a running component: drawn as an outline only. */
+.erp__node--configuration {
+  background: rgb(255 255 255 / 0.5);
+  box-shadow: none;
+  outline: 1px dashed rgb(28 29 33 / 0.42);
+  outline-offset: -1px;
+}
+
+.erp__node:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+/* The selected node gives up its own material: the glass lens is beneath it. */
+.erp__node[aria-pressed='true'] {
+  background: transparent;
+  box-shadow: none;
+  color: var(--pearl);
+}
+
+.erp__node--configuration[aria-pressed='true']:not(:focus-visible) {
+  outline-color: transparent;
+}
+
+.erp__node[aria-pressed='true'] .erp__node-kicker {
+  color: var(--silver);
+}
+
+@media (hover: hover) {
+  .erp__node:not([aria-pressed='true']):hover {
+    box-shadow:
+      inset 0 0 0 1px rgb(28 29 33 / 0.45),
+      0 1px 2px rgb(var(--shadow-color) / 0.08),
+      0 10px 20px -14px rgb(var(--shadow-color) / 0.45);
+  }
+}
+
+.erp__lens {
+  --g-radius: var(--radius-sm);
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  transition:
+    left var(--dur-slow) var(--ease-glass),
+    top var(--dur-slow) var(--ease-glass),
+    width var(--dur-slow) var(--ease-glass),
+    height var(--dur-slow) var(--ease-glass);
+}
+
+/* ── Read-out ───────────────────────────────────────── */
+.erp__info {
+  display: grid;
+  gap: var(--space-1);
+  min-height: 7.5rem;
+  padding: var(--space-4) var(--space-5) var(--space-5);
+  border-top: 1px solid var(--line);
+}
+
+.erp__info-title {
+  font-size: var(--text-md);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.erp__info-body {
+  max-width: 60ch;
+  color: var(--fg-2);
+}
+
+@container (max-width: 640px) {
+  .erp__node {
+    padding: 0 0.6rem;
+  }
+
+  .erp__node-kicker {
+    display: none;
+  }
+}
